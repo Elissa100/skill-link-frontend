@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import TaskList from './pages/Tasks/TaskList';
 import TaskDetail from './pages/Tasks/TaskDetail';
 import CreateTask from './pages/Tasks/CreateTask';
+import Profile from './pages/Profile/Profile';
 
 function App() {
   return (
@@ -31,6 +32,12 @@ function App() {
               <Route path="/dashboard" element={
                 <AuthGuard>
                   <Dashboard />
+                </AuthGuard>
+              } />
+              
+              <Route path="/profile" element={
+                <AuthGuard>
+                  <Profile />
                 </AuthGuard>
               } />
               
