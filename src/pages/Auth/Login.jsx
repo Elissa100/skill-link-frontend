@@ -68,10 +68,10 @@ const Login = () => {
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Email Address
               </label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <FiMail />
-                </span>
+              <div className="relative mt-1 group">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-blue-500">
+                  <FiMail className="w-5 h-5 text-gray-400 group-focus-within:text-blue-500" />
+                </div>
                 <input
                   {...register('email', { 
                     required: 'Email is required',
@@ -81,12 +81,12 @@ const Login = () => {
                     }
                   })}
                   type="email"
-                  className="pl-10 pr-3 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                  className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
                   placeholder="Enter your email"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-error-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
               )}
             </div>
 
@@ -94,10 +94,10 @@ const Login = () => {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Password
               </label>
-              <div className="relative mt-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-                  <FiLock />
-                </span>
+              <div className="relative mt-1 group">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-purple-500">
+                  <FiLock className="w-5 h-5 text-gray-400 group-focus-within:text-purple-500" />
+                </div>
                 <input
                   {...register('password', { 
                     required: 'Password is required',
@@ -107,13 +107,13 @@ const Login = () => {
                     }
                   })}
                   type={showPassword ? "text" : "password"}
-                  className="pl-10 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                  className="pl-12 pr-12 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
                   placeholder="Enter your password"
                 />
                 <button
                   type="button"
                   tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-500 focus:outline-none"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 focus:outline-none transition-colors duration-200"
                   onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -121,7 +121,7 @@ const Login = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-error-600">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
               )}
             </div>
 
@@ -151,7 +151,7 @@ const Login = () => {
               <div className="bg-primary-50 dark:bg-gray-700/50 border border-primary-200 dark:border-gray-600 rounded-lg p-3 flex items-center gap-2">
                 <FiUser className="text-primary-600 dark:text-primary-400" />
                 <span className="font-medium">Admin:</span>
-                <span className="ml-auto text-gray-700 dark:text-gray-200">admin@skilllink.dev / Admin123!</span>
+                <span className="ml-auto text-gray-700 dark:text-gray-200">sboel66@gmail.com / Admin123!</span>
               </div>
               <div className="bg-secondary-50 dark:bg-gray-700/50 border border-secondary-200 dark:border-gray-600 rounded-lg p-3 flex items-center gap-2">
                 <FiUser className="text-secondary-600 dark:text-secondary-400" />

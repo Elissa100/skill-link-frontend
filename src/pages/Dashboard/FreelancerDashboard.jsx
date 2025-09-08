@@ -7,7 +7,10 @@ import {
   TrendingUp,
   Star,
   Clock,
-  CheckCircle
+  CheckCircle,
+  User,
+  FileText,
+  Target
 } from 'lucide-react';
 import { bidService, taskService, paymentService } from '../../services/api';
 import LoadingSpinner from '../../components/UI/LoadingSpinner';
@@ -201,6 +204,48 @@ const FreelancerDashboard = () => {
               </div>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="mt-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Link to="/tasks" className="group">
+            <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-300 dark:hover:border-primary-600 transition-colors group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20">
+              <Search className="w-8 h-8 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mx-auto mb-2" />
+              <p className="text-center text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 font-medium">
+                Browse Tasks
+              </p>
+            </div>
+          </Link>
+
+          <Link to="/profile" className="group">
+            <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-300 dark:hover:border-primary-600 transition-colors group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20">
+              <User className="w-8 h-8 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mx-auto mb-2" />
+              <p className="text-center text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 font-medium">
+                View Portfolio
+              </p>
+            </div>
+          </Link>
+
+          <Link to="/earnings" className="group">
+            <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-300 dark:hover:border-primary-600 transition-colors group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20">
+              <DollarSign className="w-8 h-8 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mx-auto mb-2" />
+              <p className="text-center text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 font-medium">
+                Track Earnings
+              </p>
+            </div>
+          </Link>
+
+          <Link to="/profile" className="group">
+            <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary-300 dark:hover:border-primary-600 transition-colors group-hover:bg-primary-50 dark:group-hover:bg-primary-900/20">
+              <Target className="w-8 h-8 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mx-auto mb-2" />
+              <p className="text-center text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 font-medium">
+                Update Skills
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

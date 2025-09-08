@@ -6,7 +6,7 @@ import { authService } from '../../services/api';
 import Button from '../../components/UI/Button';
 import Modal from '../../components/UI/Modal';
 import { Users, Briefcase, Mail, ArrowRight } from 'lucide-react';
-import { FiEye, FiEyeOff } from 'react-icons/fi'; // Add this import
+import { FiEye, FiEyeOff, FiUser, FiMail, FiLock, FiFileText, FiTool, FiLink } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const Register = () => {
@@ -17,7 +17,7 @@ const Register = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // Add this state
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { register: formRegister, handleSubmit, watch, formState: { errors } } = useForm();
@@ -31,7 +31,6 @@ const Register = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      // Prepare data for backend
       const registrationData = {
         email: data.email,
         password: data.password,
@@ -64,12 +63,10 @@ const Register = () => {
     try {
       const response = await authService.verifyEmail(userId, verificationCode);
       
-      // Store tokens and login user
       localStorage.setItem('token', response.data.data.accessToken);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
       
-      // Update auth context
-      await login(response.data.data.user.email, 'verified'); // Special case for verified users
+      await login(response.data.data.user.email, 'verified');
       
       toast.success('Email verified successfully! Welcome to SkillLink!');
       setShowVerification(false);
@@ -91,11 +88,11 @@ const Register = () => {
       setIsResending(false);
     }
   };
+
   return (
     <>
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl w-full space-y-8">
-          {/* Professional Welcome Section */}
           <div className="text-center">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-gradient-to-tr from-primary-600 to-secondary-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -165,7 +162,7 @@ const Register = () => {
                   </label>
                 </div>
                 {errors.role && (
-                  <p className="mt-2 text-sm text-error-600">{errors.role.message}</p>
+                  <p className="mt-2 text-sm text-red-600">{errors.role.message}</p>
                 )}
               </div>
 
@@ -174,20 +171,25 @@ const Register = () => {
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Full Name
                   </label>
-                  <input
-                    {...formRegister('name', { 
-                      required: 'Name is required',
-                      minLength: {
-                        value: 2,
-                        message: 'Name must be at least 2 characters'
-                      }
-                    })}
-                    type="text"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter your full name"
-                  />
+                  <div className="relative mt-1 group">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-green-500">
+                      <FiUser className="w-5 h-5 text-gray-400 group-focus-within:text-green-500" />
+                    </div>
+                    <input
+                      {...formRegister('name', { 
+                        required: 'Name is required',
+                        minLength: {
+                          value: 2,
+                          message: 'Name must be at least 2 characters'
+                        }
+                      })}
+                      type="text"
+                      className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-green-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
                   {errors.name && (
-                    <p className="mt-1 text-sm text-error-600">{errors.name.message}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
                   )}
                 </div>
 
@@ -195,20 +197,25 @@ const Register = () => {
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Email Address
                   </label>
-                  <input
-                    {...formRegister('email', { 
-                      required: 'Email is required',
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: 'Invalid email address'
-                      }
-                    })}
-                    type="email"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Enter your email"
-                  />
+                  <div className="relative mt-1 group">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-blue-500">
+                      <FiMail className="w-5 h-5 text-gray-400 group-focus-within:text-blue-500" />
+                    </div>
+                    <input
+                      {...formRegister('email', { 
+                        required: 'Email is required',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Invalid email address'
+                        }
+                      })}
+                      type="email"
+                      className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
+                      placeholder="Enter your email"
+                    />
+                  </div>
                   {errors.email && (
-                    <p className="mt-1 text-sm text-error-600">{errors.email.message}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                   )}
                 </div>
 
@@ -216,7 +223,10 @@ const Register = () => {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Password
                   </label>
-                  <div className="relative mt-1">
+                  <div className="relative mt-1 group">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-purple-500">
+                      <FiLock className="w-5 h-5 text-gray-400 group-focus-within:text-purple-500" />
+                    </div>
                     <input
                       {...formRegister('password', { 
                         required: 'Password is required',
@@ -226,13 +236,13 @@ const Register = () => {
                         }
                       })}
                       type={showPassword ? "text" : "password"}
-                      className="pl-3 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                      className="pl-12 pr-12 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
                       placeholder="Create a password"
                     />
                     <button
                       type="button"
                       tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-500 focus:outline-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 focus:outline-none transition-colors duration-200"
                       onClick={() => setShowPassword((v) => !v)}
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
@@ -240,9 +250,8 @@ const Register = () => {
                     </button>
                   </div>
                   {errors.password && (
-                    <p className="mt-1 text-sm text-error-600">{errors.password.message}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
                   )}
-                  {/* Password strength meter */}
                   {watch('password') && (
                     <div className="mt-2">
                       {(() => {
@@ -272,20 +281,23 @@ const Register = () => {
                   <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Confirm Password
                   </label>
-                  <div className="relative mt-1">
+                  <div className="relative mt-1 group">
+                    <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-purple-500">
+                      <FiLock className="w-5 h-5 text-gray-400 group-focus-within:text-purple-500" />
+                    </div>
                     <input
                       {...formRegister('confirmPassword', {
                         required: 'Please confirm your password',
                         validate: (value) => value === watch('password') || 'Passwords do not match'
                       })}
                       type={showConfirmPassword ? 'text' : 'password'}
-                      className="pl-3 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                      className="pl-12 pr-12 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
                       placeholder="Re-enter your password"
                     />
                     <button
                       type="button"
                       tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-500 focus:outline-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-500 focus:outline-none transition-colors duration-200"
                       onClick={() => setShowConfirmPassword((v) => !v)}
                       aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
                     >
@@ -293,7 +305,7 @@ const Register = () => {
                     </button>
                   </div>
                   {errors.confirmPassword && (
-                    <p className="mt-1 text-sm text-error-600">{errors.confirmPassword.message}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
                   )}
                 </div>
 
@@ -301,12 +313,17 @@ const Register = () => {
                   <label htmlFor="bio" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Bio
                   </label>
-                  <textarea
-                    {...formRegister('bio')}
-                    rows={3}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder={selectedRole === 'CLIENT' ? 'Tell us about your business...' : 'Tell us about your skills and experience...'}
-                  />
+                  <div className="relative mt-1 group">
+                    <div className="absolute left-3 top-3 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-orange-500">
+                      <FiFileText className="w-5 h-5 text-gray-400 group-focus-within:text-orange-500" />
+                    </div>
+                    <textarea
+                      {...formRegister('bio')}
+                      rows={3}
+                      className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400 resize-none"
+                      placeholder={selectedRole === 'CLIENT' ? 'Tell us about your business...' : 'Tell us about your skills and experience...'}
+                    />
+                  </div>
                 </div>
 
                 {selectedRole === 'FREELANCER' && (
@@ -315,12 +332,17 @@ const Register = () => {
                     <label htmlFor="skills" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Skills (comma-separated)
                     </label>
-                    <input
-                      {...formRegister('skills')}
-                      type="text"
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                      placeholder="e.g. React, Node.js, Design"
-                    />
+                    <div className="relative mt-1 group">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-red-500">
+                        <FiTool className="w-5 h-5 text-gray-400 group-focus-within:text-red-500" />
+                      </div>
+                      <input
+                        {...formRegister('skills')}
+                        type="text"
+                        className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-red-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
+                        placeholder="e.g. React, Node.js, Design"
+                      />
+                    </div>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                       Enter your main skills separated by commas
                     </p>
@@ -330,12 +352,17 @@ const Register = () => {
                     <label htmlFor="portfolioLinks" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                       Portfolio Links (comma-separated)
                     </label>
-                    <input
-                      {...formRegister('portfolioLinks')}
-                      type="text"
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                      placeholder="e.g. https://github.com/username, https://portfolio.com"
-                    />
+                    <div className="relative mt-1 group">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 transition-all duration-200 group-focus-within:scale-110 group-focus-within:text-teal-500">
+                        <FiLink className="w-5 h-5 text-gray-400 group-focus-within:text-teal-500" />
+                      </div>
+                      <input
+                        {...formRegister('portfolioLinks')}
+                        type="text"
+                        className="pl-12 pr-3 py-3 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent focus:scale-[1.02] dark:bg-gray-700 dark:text-white transition-all duration-200 hover:border-gray-400"
+                        placeholder="e.g. https://github.com/username, https://portfolio.com"
+                      />
+                    </div>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                       Enter your portfolio URLs separated by commas
                     </p>
@@ -358,7 +385,7 @@ const Register = () => {
                     I agree to the <span className="underline cursor-pointer">Terms</span> and <span className="underline cursor-pointer">Privacy Policy</span>
                   </label>
                   {errors.terms && (
-                    <p className="mt-1 text-sm text-error-600">{errors.terms.message}</p>
+                    <p className="mt-1 text-sm text-red-600">{errors.terms.message}</p>
                   )}
                 </div>
               </div>
@@ -388,7 +415,6 @@ const Register = () => {
         </div>
       </div>
 
-      {/* Email Verification Modal */}
       <Modal
         isOpen={showVerification}
         onClose={() => {}}
