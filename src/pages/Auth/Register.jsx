@@ -6,6 +6,7 @@ import { authService } from '../../services/api';
 import Button from '../../components/UI/Button';
 import Modal from '../../components/UI/Modal';
 import { Users, Briefcase, Mail, ArrowRight } from 'lucide-react';
+import { FiEye, FiEyeOff } from 'react-icons/fi'; // Add this import
 import toast from 'react-hot-toast';
 
 const Register = () => {
@@ -16,8 +17,10 @@ const Register = () => {
   const [verificationCode, setVerificationCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // Add this state
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register: formRegister, handleSubmit, watch, formState: { errors } } = useForm();
 
   const selectedRole = watch('role');
 
@@ -92,11 +95,20 @@ const Register = () => {
     <>
       <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl w-full space-y-8">
+          {/* Professional Welcome Section */}
           <div className="text-center">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-gradient-to-tr from-primary-600 to-secondary-500 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-extrabold text-3xl tracking-widest">S</span>
+              </div>
+            </div>
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Join SkillLink
+              Join <span className="text-primary-600 dark:text-primary-400">SkillLink</span>
             </h2>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
+            <div className="flex justify-center mt-2 mb-2">
+              <span className="inline-block w-12 h-1 bg-primary-500 rounded"></span>
+            </div>
+            <p className="text-base text-gray-600 dark:text-gray-400">
               Create your account and start connecting
             </p>
           </div>
@@ -110,7 +122,7 @@ const Register = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <label className="relative cursor-pointer">
                     <input
-                      {...register('role', { required: 'Please select a role' })}
+                      {...formRegister('role', { required: 'Please select a role' })}
                       type="radio"
                       value="CLIENT"
                       className="sr-only peer"
@@ -132,7 +144,7 @@ const Register = () => {
 
                   <label className="relative cursor-pointer">
                     <input
-                      {...register('role', { required: 'Please select a role' })}
+                      {...formRegister('role', { required: 'Please select a role' })}
                       type="radio"
                       value="FREELANCER"
                       className="sr-only peer"
@@ -163,7 +175,7 @@ const Register = () => {
                     Full Name
                   </label>
                   <input
-                    {...register('name', { 
+                    {...formRegister('name', { 
                       required: 'Name is required',
                       minLength: {
                         value: 2,
@@ -184,7 +196,7 @@ const Register = () => {
                     Email Address
                   </label>
                   <input
-                    {...register('email', { 
+                    {...formRegister('email', { 
                       required: 'Email is required',
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -204,20 +216,84 @@ const Register = () => {
                   <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Password
                   </label>
-                  <input
-                    {...register('password', { 
-                      required: 'Password is required',
-                      minLength: {
-                        value: 6,
-                        message: 'Password must be at least 6 characters'
-                      }
-                    })}
-                    type="password"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="Create a password"
-                  />
+                  <div className="relative mt-1">
+                    <input
+                      {...formRegister('password', { 
+                        required: 'Password is required',
+                        minLength: {
+                          value: 6,
+                          message: 'Password must be at least 6 characters'
+                        }
+                      })}
+                      type={showPassword ? "text" : "password"}
+                      className="pl-3 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                      placeholder="Create a password"
+                    />
+                    <button
+                      type="button"
+                      tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-500 focus:outline-none"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                    >
+                      {showPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
                   {errors.password && (
                     <p className="mt-1 text-sm text-error-600">{errors.password.message}</p>
+                  )}
+                  {/* Password strength meter */}
+                  {watch('password') && (
+                    <div className="mt-2">
+                      {(() => {
+                        const pwd = watch('password') || '';
+                        let score = 0;
+                        if (pwd.length >= 6) score += 1;
+                        if (/[A-Z]/.test(pwd)) score += 1;
+                        if (/[0-9]/.test(pwd)) score += 1;
+                        if (/[^A-Za-z0-9]/.test(pwd)) score += 1;
+                        const strength = ['Weak', 'Fair', 'Good', 'Strong'][Math.max(0, score - 1)];
+                        const widths = ['w-1/4', 'w-2/4', 'w-3/4', 'w-full'];
+                        const colors = ['bg-red-500', 'bg-yellow-500', 'bg-green-500', 'bg-emerald-600'];
+                        return (
+                          <div>
+                            <div className="h-1.5 w-full bg-gray-200 dark:bg-gray-600 rounded">
+                              <div className={`h-1.5 ${widths[score-1] || 'w-1/4'} ${colors[score-1] || 'bg-red-500'} rounded transition-all`}></div>
+                            </div>
+                            <p className="mt-1 text-xs text-gray-600 dark:text-gray-400">Strength: {strength}</p>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Confirm Password
+                  </label>
+                  <div className="relative mt-1">
+                    <input
+                      {...formRegister('confirmPassword', {
+                        required: 'Please confirm your password',
+                        validate: (value) => value === watch('password') || 'Passwords do not match'
+                      })}
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      className="pl-3 pr-10 py-2 block w-full border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition"
+                      placeholder="Re-enter your password"
+                    />
+                    <button
+                      type="button"
+                      tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-500 focus:outline-none"
+                      onClick={() => setShowConfirmPassword((v) => !v)}
+                      aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                    >
+                      {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                    </button>
+                  </div>
+                  {errors.confirmPassword && (
+                    <p className="mt-1 text-sm text-error-600">{errors.confirmPassword.message}</p>
                   )}
                 </div>
 
@@ -226,7 +302,7 @@ const Register = () => {
                     Bio
                   </label>
                   <textarea
-                    {...register('bio')}
+                    {...formRegister('bio')}
                     rows={3}
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     placeholder={selectedRole === 'CLIENT' ? 'Tell us about your business...' : 'Tell us about your skills and experience...'}
@@ -240,7 +316,7 @@ const Register = () => {
                       Skills (comma-separated)
                     </label>
                     <input
-                      {...register('skills')}
+                      {...formRegister('skills')}
                       type="text"
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       placeholder="e.g. React, Node.js, Design"
@@ -255,7 +331,7 @@ const Register = () => {
                       Portfolio Links (comma-separated)
                     </label>
                     <input
-                      {...register('portfolioLinks')}
+                      {...formRegister('portfolioLinks')}
                       type="text"
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       placeholder="e.g. https://github.com/username, https://portfolio.com"
@@ -266,6 +342,25 @@ const Register = () => {
                   </div>
                   </>
                 )}
+              </div>
+
+              <div className="flex items-start">
+                <div className="flex items-center h-5">
+                  <input
+                    id="terms"
+                    type="checkbox"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
+                    {...formRegister('terms', { required: 'You must accept the Terms to continue' })}
+                  />
+                </div>
+                <div className="ml-3 text-sm">
+                  <label htmlFor="terms" className="text-gray-700 dark:text-gray-300">
+                    I agree to the <span className="underline cursor-pointer">Terms</span> and <span className="underline cursor-pointer">Privacy Policy</span>
+                  </label>
+                  {errors.terms && (
+                    <p className="mt-1 text-sm text-error-600">{errors.terms.message}</p>
+                  )}
+                </div>
               </div>
 
               <Button
@@ -301,11 +396,6 @@ const Register = () => {
         maxWidth="max-w-md"
       >
         <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-2xl">S</span>
-            </div>
-          </div>
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 bg-primary-600 rounded-xl flex items-center justify-center">
               <span className="text-white font-bold text-2xl">S</span>

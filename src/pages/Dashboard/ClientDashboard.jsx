@@ -73,7 +73,7 @@ const ClientDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md hover:-translate-y-0.5 duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-primary-100 dark:bg-primary-900 rounded-lg">
               <Briefcase className="w-6 h-6 text-primary-600 dark:text-primary-400" />
@@ -85,7 +85,7 @@ const ClientDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md hover:-translate-y-0.5 duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-warning-100 dark:bg-warning-900 rounded-lg">
               <Clock className="w-6 h-6 text-warning-600 dark:text-warning-400" />
@@ -97,7 +97,7 @@ const ClientDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md hover:-translate-y-0.5 duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-success-100 dark:bg-success-900 rounded-lg">
               <CheckCircle className="w-6 h-6 text-success-600 dark:text-success-400" />
@@ -109,7 +109,7 @@ const ClientDashboard = () => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md hover:-translate-y-0.5 duration-200">
           <div className="flex items-center">
             <div className="p-2 bg-secondary-100 dark:bg-secondary-900 rounded-lg">
               <DollarSign className="w-6 h-6 text-secondary-600 dark:text-secondary-400" />
@@ -124,7 +124,7 @@ const ClientDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Recent Tasks */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md duration-200">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Tasks</h2>
@@ -148,7 +148,7 @@ const ClientDashboard = () => {
             ) : (
               <div className="space-y-4">
                 {tasks.slice(0, 5).map((task) => (
-                  <div key={task.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                  <div key={task.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition hover:bg-gray-50 dark:hover:bg-gray-700/50">
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900 dark:text-white">{task.title}</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -175,7 +175,7 @@ const ClientDashboard = () => {
         </div>
 
         {/* Recent Payments */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition hover:shadow-md duration-200">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Recent Payments</h2>
           </div>
@@ -188,7 +188,7 @@ const ClientDashboard = () => {
             ) : (
               <div className="space-y-4">
                 {payments.slice(0, 5).map((payment) => (
-                  <div key={payment.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+                  <div key={payment.id} className="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg transition hover:bg-gray-50 dark:hover:bg-gray-700/50">
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900 dark:text-white">
                         {payment.task.title}
